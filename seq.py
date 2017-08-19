@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 from static_property import static_property
 import types
+import scipy.signal as sps
+import matplotlib.pylab as plt
 
 class seq(str):
     """A sequence"""  
@@ -54,7 +56,11 @@ class seq(str):
             return [fun_or_dic[char] for char in self]
             
     #map plotting(moving average), recurrence/fourier analysis
-    def plot_map(self, fun_or_dic):
+    def plot_map(self, fun_or_dic, window=1):
+        array = np.array(self.map(fun_or_dic))
+        conv = sps.convolve(array, 1.0/window**np.ones((window)))
+        plt.plot(conv)
+        plt.show()
 
 class DNA(seq):
     """A DNA sequence"""
@@ -71,13 +77,14 @@ class DNA(seq):
      
  
 class protein(seq):
-    
+    def __init__():
+        pass
     #load aaindex
     
     
 if __name__ == '__main__':    
     s = DNA('ACTGATCG')
-    print(s.gc)
+    s.plot_map(lambda char: 1 if (char == 'A' or char == 'G') else 0, 2)
     
     
 #regular expressions
